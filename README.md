@@ -40,7 +40,7 @@
 - _**브랜치명을 반드시 준수할 것**_
 - **_절대로, 어떠한 일이 있어도, 다른 페어의 파일을 수정하지 말 것. 자신의 페어 폴더만 수정하고 변경할 것._**
 - **과제는 이미 생성되어 있는 1주차 수요일 (세션 1) 폴더에 있는 페어 폴더 안쪽**에 자유롭게 제출 후 PR 생성
-- 브랜치 생성 방법과 PR 방법은 [이곳](https://github.com/Likelion-Inha-10/be-assignments-submit-practice/blob/main/README.md) 을 참조
+- 브랜치 생성 방법과 PR 방법은 [이곳](https://github.com/Likelion-Inha-11/be-PR-guideline.git) 을 참조
 
 ### 📊 **세미나 안내**
 
