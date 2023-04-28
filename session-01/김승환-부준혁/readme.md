@@ -32,10 +32,12 @@ Python 어플을 만드는 명령어 장고 프로젝트의 루트 디렉토리�
 
 <hr>
 
+![request_cycle](https://user-images.githubusercontent.com/69035864/235091437-e835dea4-5596-4e9e-9b39-c7f9adceeec1.jpg)
+
+
 ## 장고에 대해서
 > 장고를 이해하기 위해서는 장고의 request cycle에 대한 이해가 선행되어야 한다고 생각합니다.
 >
-> # [ 장고 request cycle 이미지 넣기 ]
 >
 >   >1. client가 웹에 대한 정보를 요청
 >   >2. Nginx/Apache와 같은 web server가 요청을 받음 (장고에서는 개발을 위한 경량 개발 웹서버가 제공된다. 하지만 배포할 때는 Nginx/Apache와 같은 web server를 이용하여 배포해야 한다.)
