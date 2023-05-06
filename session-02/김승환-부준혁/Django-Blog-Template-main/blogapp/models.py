@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model # 추가
+# from django.contrib.auth.models import AbstractUser # user 커스텀하면 필요?
 
 # Create your models here.
 class Blog(models.Model):
@@ -9,18 +10,24 @@ class Blog(models.Model):
 
     def __str__(self):
         return self.title
-    
-
 
 User = get_user_model() # 사용자 모델 장고에서 만들어줌 -> 
-    
+
+
+# user 커스텀 방법도 있는데 일단 확장으로 진행?
+'''class UserInfo(models.Model):
+    mbti = models.CharField(verbose_name='MBTI',max_length=5)
+    user = models.ForeignKey(to='User',on_delete=models.CASCADE)
+   ''' 
+ 
+        
 # 커뮤니티 게시판 
 class Post(models.Model):
     # 게시판: 제목, 내용, 작성일, 조회수, 작성자 ForeignKey, 그리고 뭐가 더 필요할까?
     
     # image = models.ImageField(verbose_name='이미지',null=True, blank=True) # 게시글 이미지 저장 필드  -- 이미지는 일단 보류
     
-    headline = models.CharField(verbose_name='제목',max_length=100) # 제목
+    headline = models.CharField(verbose_name='제목',max_length=200) # 제목
     content = models.TextField(verbose_name='내용') # 게시글 내용 저장 필드 
     created_at = models.DateTimeField(verbose_name='작성일',auto_now_add=True) # 작성 시간
     view_count = models.IntegerField(verbose_name='조회수',default=0)  # 조회수   
@@ -56,4 +63,3 @@ ex) ->  Operations to perform:
 
 sqlite 설치해서 확인해보면 데이터 확인 가능
 '''
-# 유저
