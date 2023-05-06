@@ -18,13 +18,13 @@ from django.urls import path
 from blogapp import views
 
 urlpatterns = [
+        path('', views.home, name = 'home'),
     path('admin/', admin.site.urls),
-    path('', views.home, name = 'home'),
-
     path('new/', views.new, name = 'new'),
-    path('create/', views.create, name = 'create'),
+    path('login/', views.login, name = 'login'),
+    path('community/', views.community, name = 'community'),
+    path('newuser/', views.newuser, name = 'newuser'),
+    path('mbtitest/', views.mbtitest, name = 'mbtitest'),
 
-    path('formcreate/', views.formcreate, name = 'formcreate'),
 
-    path('modelformcreate/', views.formcreate, name = 'modelformcreate'),
 ]
