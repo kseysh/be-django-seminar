@@ -20,5 +20,5 @@ class Post(models.Model):
     view_count = models.IntegerField('조회수')  # 조회수   
 
 # 댓글 모델
-
+#class 
 #class Comment(models.Model)
