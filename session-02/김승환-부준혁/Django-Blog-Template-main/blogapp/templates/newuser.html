@@ -7,8 +7,12 @@
     <title>회원가입</title>
 </head>
 <body>
+    <div style="text-align: center; font-weight: bold;">
+        <a href="{% url 'home' %}">MBTI</a>
+    </div>
     회원 가입 페이지 입니다. <br>
     <form action="" method="post">
+        {% csrf_token %}
         ID : <input type="text" id="user_id" required><br>
         PW : <input type="password" id="user_pw" required><br>
         nickname : <input type="text" id="user_nickname" required><br>

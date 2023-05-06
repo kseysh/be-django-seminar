@@ -1,25 +1,63 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+
+from .models import Post
+
+
+
 
 # Create your views here.
 
 def home(request):
     return render(request, 'index.html')
 
+@login_required
 def new(request):
-    return render(request, 'new.html')
-
-def create(request):
-    return render(request, 'create.html')
+    if request.method=='GET':
+        return render(request, 'new.html')
+    else:
+        #post = get_object_or_404(Post,pk=post_id)
+        return HttpResponseRedirect('/community')
 
 def login(request):
-    return render(request,'login.html')
+    if request.method=='POST':
+        return render(request,'community.html')
+    else:
+        return render(request,'login.html')
 
 def community(request):
     return render(request,'community.html')
 
 def newuser(request):
-    return render(request,'newuser.html')
+    if request.method=='POST':
+        return render(request,'community.html')
+    else:
+        return render(request,'newuser.html')
 
+@login_required
 def mbtitest(request):
-    return render(request,'mbtitest.html')
+    if request.method=='POST':
+        return HttpResponseRedirect('/community')
+    else:
+        return render(request,'mbtitest.html')
+#리다이렉션이란 웹 브라우저에서 요청한 url을 다른 url로 변경하여 새로운 페이지로 이동시키는 기능
+# 웹 애플리케이션에서 리다이렉션을 사용하는 경우
+# 1. 사용자가 요청한 페이지를 삭제한 경우
+# 2. 사용자가 요청한 페이지의 URL이 변경된 경우
+# 3. 사용자가 로그인 또는 로그아웃 등의 작업을 수행한 후, 
+#    이전 페이지로 다시 이동시키기 위한 경우
+
+# HttpResponseRedirect를 사용할 때, 인자로 전달하는 URL은 반드시 절대 경로여야 한다.
+# 따라서, 'communty' 대신 '/communty'로 변경하여야
+# 원하는 URL로 리다이렉션이 가능하다.
+
+def detail(request):
+    return render(request,'detail.html')
+
+def edit(request):
+    if request.method=='POST':
+        return render(request,'community.html')
+    else:
+        render(request,'edit.html')
 

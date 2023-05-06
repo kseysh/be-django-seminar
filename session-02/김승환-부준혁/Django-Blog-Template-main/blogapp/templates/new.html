@@ -1,4 +1,7 @@
-<form action = "" method = "POST">
+<div style="text-align: center; font-weight: bold;">
+    <a href="{% url 'home' %}">MBTI</a>
+</div>
+<form action = "{% url 'new' post.id %}" method = "POST">
     {% csrf_token %}
     <div>
         <label for = "title">제목</label><br/>
