@@ -1,6 +1,8 @@
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
+from django.urls import reverse
+
 
 from .models import Post
 
@@ -22,16 +24,18 @@ def new(request):
 
 def login(request):
     if request.method=='POST':
-        return render(request,'community.html')
+        return HttpResponseRedirect('/mbtitest')
     else:
         return render(request,'login.html')
 
 def community(request):
-    return render(request,'community.html')
+    post_list = Post.objects.all()
+    context = {"post_list":post_list}
+    return render(request,'community.html',context)
 
 def newuser(request):
     if request.method=='POST':
-        return render(request,'community.html')
+        return render(request,'index.html')
     else:
         return render(request,'newuser.html')
 
@@ -52,12 +56,18 @@ def mbtitest(request):
 # 따라서, 'communty' 대신 '/communty'로 변경하여야
 # 원하는 URL로 리다이렉션이 가능하다.
 
-def detail(request):
-    return render(request,'detail.html')
+def detail(request,post_id):
+        post = get_object_or_404(Post, pk = post_id)
+         # headline = post.headline
+        content = post.content
+        context = {"post_id":post.id, "content":content}
+        return render(request,"detail.html",context)
 
-def edit(request):
+
+def edit(request,post_id):
     if request.method=='POST':
-        return render(request,'community.html')
+        return HttpResponseRedirect(reverse("detail", args=(post_id,)))
+
     else:
-        render(request,'edit.html')
+        return render(request,'edit.html')
 

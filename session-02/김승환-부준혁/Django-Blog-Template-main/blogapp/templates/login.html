@@ -5,18 +5,72 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <style>
+        header{
+            text-align: center;
+        }
+        header a{
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            font-size: 30px;
+        }
+        .login_field{
+            display: flex;
+            justify-content: center;
+        }
+        fieldset{
+            width: 70%;
+            display: flex;
+            justify-content: center;
+        }
+        .block{
+            border: 1px solid black;
+            border-radius: 20px;
+            width: 80px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            margin: auto;
+
+        }
+        .block a{
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+
+        }
+    </style>
 </head>
 <body>
-    <div style="text-align: center; font-weight: bold;">
-        <a href="{% url 'home' %}">MBTI</a>
+    <header>
+        <div>
+            <a href="{% url 'home' %}">MBTI</a>
+        </div>
+    </header>
+   <br>
+    <div class="login_field">
+        <fieldset>
+            <legend style="text-align: center;">login</legend>
+            <form action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
+                <br>
+                id : <input type="text" id="user_id"><br><br>
+                pw : <input type="password" id="user_pw">
+                <br><br>
+                <input type="submit" style="margin:auto; display: block;" value="로그인">
+                <br>
+                <div class="block">
+                    <a href="{% url 'newuser' %}"> 회원가입 </a>
+                </div>
+            </form>
+            <br>
+            
+    
+        </fieldset>
     </div>
-    login page 입니다.
-    <form action="{% url 'login' %}" method="POST">
-        {% csrf_token %}
-        id : <input type="text" id="user_id"><br>
-        password : <input type="password" id="user_pw">
-        <br>
-        <input type="submit">
-    </form>
+    
+    
+
 </body>
 </html>

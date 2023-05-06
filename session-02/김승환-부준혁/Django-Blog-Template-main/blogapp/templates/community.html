@@ -5,17 +5,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MBTI Community</title>
+    <style>
+        header{
+            text-align: center;
+        }
+        header a{
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            font-size: 30px;
+        }
+    </style>
 </head>
 <body>
-    <div style="text-align: center; font-weight: bold;">
-        <a href="{% url 'home' %}">MBTI</a>
-    </div>
+    <header>
+        <div style="text-align: center; font-weight: bold;">
+            <a href="{% url 'home' %}">MBTI</a>
+        </div>
+    </header>
+    
 
-    {% if latest_post_list %}
+    {% if post_list %}
     <ul>
-    {% for post in latest_post_list %}
-        <li><a href="{% url 'detail' post.id %}">{{ post.post_text }}</a></li>
-        {% endfor %}
+    {% for post in post_list %}
+        <li><a href="{% url 'detail' post.id %}">{{ post.content }}</a></li>
+    {% endfor %}
     </ul>
 {% else %}
     <p>글 목록이 없습니다.</p>
