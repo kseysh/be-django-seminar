@@ -22,3 +22,5 @@ class Post(models.Model):
 # 댓글 모델
 
 #class Comment(models.Model)
+
+#안녕
