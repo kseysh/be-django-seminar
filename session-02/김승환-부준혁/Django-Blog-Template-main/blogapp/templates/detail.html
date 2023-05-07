@@ -42,7 +42,19 @@
                     <p>{{ post.headline }}</p>
                 </td>
             </tr>
-
+            <tr>
+                <td> 작성자 </td>
+                <td>
+                    {{ post.writer }}
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    MBTI : 
+                    {% if post.writer.mbti %}
+                        {{ post.writer.mbti }}
+                    {% else %}
+                        NONE
+                    {% endif %}
+                </td>
+            </tr>
             <tr style="min-height: 500px;">
                 <td>
                     <p> 내용   </p>
@@ -82,7 +94,7 @@
             {% if comment.writer.mbti %}
                 {{ comment.writer.mbti }}
             {% else %}
-                CUTE
+                NONE
             {% endif %}
         </td> 
         <td>
