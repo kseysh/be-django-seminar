@@ -84,21 +84,39 @@
                         <input type="text" name="comment_text">
                         <input type="submit" value="작성">
                         <input type="hidden" name="user_id" value="{{ user.id }}">
+                        비밀 글 : <input type="checkbox" name="secret">
+                        익명 글 : <input type="checkbox" name="anonymous">
                     </form>
                 </td>
             </tr>
             {% for comment in post.comment_set.all %}
     <tr>
         <td>
-            작성자 : {{ comment.writer }} <br>MBTI : 
+            {% if comment.is_anonymous %}
+                익명의 작성자
+            {% else %}
+                작성자 : {{ comment.writer }}
+            {% endif %}
+            
+            <br>MBTI : 
             {% if comment.writer.mbti %}
                 {{ comment.writer.mbti }}
             {% else %}
                 NONE
             {% endif %}
+            <br>
+            {% if comment.is_secret %}
+                (비밀글)
+            {% endif %}
         </td> 
         <td>
-            <p name="comment_text">{{ comment.content }}</p>
+            {% if comment.is_secret%}
+                {% if request.user == comment.writer or request.user.is_staff%}
+                    <p name="comment_text">{{ comment.content }}</p>
+                {% endif %}
+            {% else %}
+                <p name="comment_text">{{ comment.content }}</p>
+            {% endif %}
             {% if request.user == comment.writer %}
             <div> 
                 <input type="button" value="누르면 hidden_form이 나오는 버튼" name="edit_button">

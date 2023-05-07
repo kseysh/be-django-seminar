@@ -63,6 +63,7 @@ def mbtitest(request):
 # 따라서, 'communty' 대신 '/communty'로 변경하여야
 # 원하는 URL로 리다이렉션이 가능하다.
 
+@login_required
 def detail(request,post_id):
         post = get_object_or_404(Post, pk = post_id)
         if request.method=='GET':
@@ -70,12 +71,26 @@ def detail(request,post_id):
             return render(request,"detail.html",context)
         else:
             comment_text = request.POST.get('comment_text')
+
+
+            is_secret=False
+            secret_value = request.POST.get('secret')
+            if secret_value:
+                is_secret = secret_value == 'on'
+
+            is_anonymous =False
+            anonymous_value = request.POST.get('anonymous')
+            if anonymous_value:
+                is_anonymous = anonymous_value == 'on'
+
             created_at = timezone.now()
             Comment.objects.create(
             content = comment_text,
             writer = request.user,
             created_at = created_at,
-            post = post
+            post = post,
+            is_secret = is_secret,
+            is_anonymous = is_anonymous
             )
             return HttpResponseRedirect(reverse("detail", args=(post_id,)))
 

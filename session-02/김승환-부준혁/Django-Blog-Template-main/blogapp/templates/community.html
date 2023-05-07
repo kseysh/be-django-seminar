@@ -24,7 +24,12 @@
         </div>
     </header>
     {% if request.user %}
-        <p> 나의 닉네임 : {{ request.user }}</p>
+        <p> 나의 닉네임 : {{ request.user }}
+            {% if request.user.is_staff %}
+            (관리자)
+            {% endif %}
+        </p>
+        
     {% else %}
         <p> 회원가입을 해주세요! </p>
     {% endif %}
