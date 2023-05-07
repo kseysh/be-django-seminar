@@ -32,6 +32,9 @@ class Post(models.Model):
     created_at = models.DateTimeField(verbose_name='작성일',auto_now_add=True) # 작성 시간
     view_count = models.IntegerField(verbose_name='조회수',default=0)  # 조회수   
     writer = models.ForeignKey(to=User,on_delete=models.CASCADE, null=True, blank=True) # 작성자
+    def __str__(self):
+        return self.headline
+    # post의 이름을 post 제목으로 바꾸기 위해 변경
     
 
 # 댓글 모델
@@ -43,6 +46,9 @@ class Comment(models.Model): # 일대다 구조
     created_at =models.DateTimeField(verbose_name='작성일')
     post = models.ForeignKey(to = 'Post',on_delete=models.CASCADE)# CASCADE -> Post삭제되면 comment도 같이 삭제
     writer = models.ForeignKey(to=User, on_delete=models.CASCADE, null=True, blank=True) # 사용자랑 연결 ,사용자모델은 장고에서 만들어줌-> User = get_user_model() 
+    def __str__(self):
+        return self.content
+    #comment의 이름을 comment 내용으로 바꾸기 위해 변경
 
 
 '''
