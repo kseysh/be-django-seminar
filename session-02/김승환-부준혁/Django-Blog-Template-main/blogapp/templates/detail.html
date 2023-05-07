@@ -20,7 +20,7 @@
 
         }
         #hidden_form{
-            display: none;
+            display: block;
         }
         
     </style>
@@ -76,50 +76,40 @@
                 </td>
             </tr>
             {% for comment in post.comment_set.all %}
-                <tr>
-                    <td>
-                        작성자 : {{ comment.writer }} <br>MBTI : 
-                        {% if comment.writer.mbti %}
-                            {{ comment.writer.mbti }}
-                        {% else %}
-                            CUTE
-                        {% endif %}
-                    </td> 
-                    <td>
-                        <p id="comment_text">{{ comment.content }}</p>
-                        {% if request.user == comment.writer %}
-                        <div> 
-                            <input type="button" value="수정" id="edit_button" onclick="show_edit()">
-                            <div id="hidden_form">
-                                <form action="{% url 'edit_comment' comment.id %}" method="post" class="btn update">
-                                    {% csrf_token %}
-                                    <input type="text" name="edited_comment" value="{{ comment.content }}">
-                                    <input type="submit" value="수정">
-                                </form> 
-                            </div>
-                            
-                            <form action="{% url 'delete_comment' comment.id %}" method="post" class="btn delete">
-                                {% csrf_token %}
-                                <input type="submit" value="삭제">
-                            </form> 
-                        </div>
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
+    <tr>
+        <td>
+            작성자 : {{ comment.writer }} <br>MBTI : 
+            {% if comment.writer.mbti %}
+                {{ comment.writer.mbti }}
+            {% else %}
+                CUTE
+            {% endif %}
+        </td> 
+        <td>
+            <p name="comment_text">{{ comment.content }}</p>
+            {% if request.user == comment.writer %}
+            <div> 
+                <input type="button" value="누르면 hidden_form이 나오는 버튼" name="edit_button">
+                <div name="hidden_form" id="hidden_form">
+                    <form action="{% url 'edit_comment' comment.id %}" method="post" class="btn">
+                        {% csrf_token %}
+                        <input type="text" name="edited_comment" value="{{ comment.content }}">
+                        <input type="submit" value="수정">
+                    </form> 
+                </div>
+                
+                <form action="{% url 'delete_comment' comment.id %}" method="post" class="btn">
+                    {% csrf_token %}
+                    <input type="submit" value="삭제">
+                </form> 
+            </div>
+            {% endif %}
+        </td>
+    </tr>
+{% endfor %}
             
         </table>
     </div>
-<script>
-    var edit_button = document.getElementById('edit_button');
-    var comment_text = document.getElementById('comment_text');
-    var hidden_form = document.getElementById('hidden_form');
 
-    function show_edit(){
-        edit_button.style.display="none";
-        comment_text.style.display="none";
-        hidden_form.style.display="block";
-    }
-</script>
 </body>
 </html>

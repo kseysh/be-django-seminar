@@ -1,0 +1,17 @@
+{% block title %}로그인{% endblock %}
+
+{% block content %}
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <div>
+        {{ form.as_ul }}
+    </div>
+    <div>
+        <input type="submit">
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        계정이 없다면 => <a href="{% url 'accounts:signup' %}">회원 가입</a>
+    </div>
+</form>
+
+{% endblock %}

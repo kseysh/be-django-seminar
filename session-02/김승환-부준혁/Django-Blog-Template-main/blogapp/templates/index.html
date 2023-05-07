@@ -68,13 +68,16 @@
             </div>
             <div class="right">
                 
-                {% if request.user %}
+                {% if request.user.is_authenticated %}
                     <div class="block">
-                        <a href="{% url 'login' %}"> 로그아웃 </a>
+                        <a href="{% url 'mbtitest' %}"> MBTI TEST </a>
+                    </div>
+                    <div class="block">
+                        <a href="{% url 'accounts:logout' %}"> 로그아웃 </a>
                     </div>
                 {% else %}
                     <div class="block">
-                        <a href="{% url 'login' %}"> 로그인 </a>
+                        <a href="{% url 'accounts:login' %}"> 로그인 </a>
                     </div>
                 {% endif %}
 

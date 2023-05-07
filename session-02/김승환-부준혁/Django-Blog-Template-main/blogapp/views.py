@@ -21,8 +21,6 @@ def new(request):
     else:        
         title = request.POST.get('title')
         body = request.POST.get('body')
-        print(title)
-        print(body)
         writer = request.user
         Post.objects.create(
             headline = title,
@@ -31,27 +29,27 @@ def new(request):
         )
         return HttpResponseRedirect('/community')
 
-def login(request):
-    if request.method=='POST':
-        return HttpResponseRedirect('/mbtitest')
-    else:
-        return render(request,'login.html')
 
 def community(request):
     post_list = Post.objects.all()
     context = {"post_list":post_list}
     return render(request,'community.html',context)
 
-def newuser(request):
-    if request.method=='POST':
-        return render(request,'index.html')
-    else:
-        return render(request,'newuser.html')
 
 @login_required
 def mbtitest(request):
     if request.method=='POST':
-        return HttpResponseRedirect('/community')
+        first = request.POST.get('first_question')
+        second = request.POST.get('second_question')
+        third = request.POST.get('third_question')
+        fourth = request.POST.get('fourth_question')
+        result=first+second+third+fourth
+        print(result)
+        request.user.mbti = result
+        request.user.save()
+
+
+        return HttpResponseRedirect('/')
     else:
         return render(request,'mbtitest.html')
 #리다이렉션이란 웹 브라우저에서 요청한 url을 다른 url로 변경하여 새로운 페이지로 이동시키는 기능

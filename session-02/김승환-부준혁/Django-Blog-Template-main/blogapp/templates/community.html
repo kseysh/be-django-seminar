@@ -29,6 +29,8 @@
         <p> 회원가입을 해주세요! </p>
     {% endif %}
 
+    <a href="{% url 'new' %}">글 작성하기</a>
+
     {% if post_list %}
     <ul>
     {% for post in post_list %}
