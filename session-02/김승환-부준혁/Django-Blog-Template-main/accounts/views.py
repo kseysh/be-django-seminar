@@ -12,7 +12,7 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             instance = form.save()
-            return redirect('login')
+            return redirect('accounts:login')
         else:
             print("not valid")
             return redirect('accounts:signup')
