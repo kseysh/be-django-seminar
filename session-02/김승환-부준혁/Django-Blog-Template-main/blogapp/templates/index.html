@@ -67,9 +67,17 @@
                 </div>
             </div>
             <div class="right">
-                <div class="block">
-                    <a href="{% url 'login' %}"> 로그인 </a>
-                </div>
+                
+                {% if request.user %}
+                    <div class="block">
+                        <a href="{% url 'login' %}"> 로그아웃 </a>
+                    </div>
+                {% else %}
+                    <div class="block">
+                        <a href="{% url 'login' %}"> 로그인 </a>
+                    </div>
+                {% endif %}
+
             </div>
             
         </div>

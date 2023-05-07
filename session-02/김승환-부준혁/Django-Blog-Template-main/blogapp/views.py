@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.utils import timezone
@@ -23,9 +23,11 @@ def new(request):
         body = request.POST.get('body')
         print(title)
         print(body)
+        writer = request.user
         Post.objects.create(
             headline = title,
-            content = body
+            content = body,
+            writer = writer,
         )
         return HttpResponseRedirect('/community')
 
@@ -70,12 +72,9 @@ def detail(request,post_id):
             return render(request,"detail.html",context)
         else:
             comment_text = request.POST.get('comment_text')
-            user_id = request.POST.get('user_id')
-            writer = get_object_or_404(User, pk=user_id)
             created_at = timezone.now()
             Comment.objects.create(
             content = comment_text,
-            #writer = writer,
             writer = request.user,
             created_at = created_at,
             post = post
@@ -83,11 +82,60 @@ def detail(request,post_id):
             return HttpResponseRedirect(reverse("detail", args=(post_id,)))
 
 
-
+@login_required
 def edit(request,post_id):
+    #post = Post.objects.get(id=post_id)
+    post = get_object_or_404(Post, pk = post_id)
+    if request.user != post.writer:
+        return Http404('잘못된 접근입니다.')
     if request.method=='POST':
+        headline = request.POST.get('headline')
+        content = request.POST.get('content')
+        post.content=content
+        post.headline=headline
+        post.save()
         return HttpResponseRedirect(reverse("detail", args=(post_id,)))
+    else:    
+        context = {'post':post,}
+        return render(request,'edit.html',context)
 
-    else:
-        return render(request,'edit.html')
+@login_required    
+def delete(request,post_id):
+    post = get_object_or_404(Post, pk = post_id)
+    if request.user != post.writer:
+        return Http404('잘못된 접근입니다.')
+    if request.method=='POST':
+        post.delete()
+        return HttpResponseRedirect('/community')
+    else:    
+        return render(request,'community.html')
+    
+
+@login_required
+def edit_comment(request,comment_id):
+    comment = get_object_or_404(Comment, pk = comment_id)
+    if request.user != comment.writer:
+        return Http404('잘못된 접근입니다.')
+    if request.method=='POST':  
+        content =request.POST.get('edited_comment')  
+        comment.content = content
+        comment.save()
+        return HttpResponseRedirect(reverse("detail", args=(comment.post.id,)))
+    else:    
+        post = get_object_or_404(Post,pk=comment.post.id)
+        context = {'post':post,}
+        return render(request,'detail.html',context)
+
+@login_required    
+def delete_comment(request,comment_id):
+    comment = get_object_or_404(Comment, pk = comment_id)
+    if request.user != comment.writer:
+        return Http404('잘못된 접근입니다.')
+    if request.method=='POST':        
+        comment.delete()
+        return HttpResponseRedirect(reverse("detail", args=(comment.post.id,)))
+    else:    
+        post = get_object_or_404(Post,pk=comment.post.id)
+        context = {'post':post,}
+        return render(request,'detail.html',context)
 
