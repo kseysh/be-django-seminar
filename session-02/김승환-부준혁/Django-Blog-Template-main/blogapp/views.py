@@ -2,14 +2,14 @@ from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-
-
-from .models import Post
-
+from django.contrib.auth import get_user_model
+from django.utils import timezone
 
 
 
-# Create your views here.
+from .models import Post,Comment
+User = get_user_model()
+
 
 def home(request):
     return render(request, 'index.html')
@@ -18,8 +18,15 @@ def home(request):
 def new(request):
     if request.method=='GET':
         return render(request, 'new.html')
-    else:
-        #post = get_object_or_404(Post,pk=post_id)
+    else:        
+        title = request.POST.get('title')
+        body = request.POST.get('body')
+        print(title)
+        print(body)
+        Post.objects.create(
+            headline = title,
+            content = body
+        )
         return HttpResponseRedirect('/community')
 
 def login(request):
@@ -58,10 +65,23 @@ def mbtitest(request):
 
 def detail(request,post_id):
         post = get_object_or_404(Post, pk = post_id)
-         # headline = post.headline
-        content = post.content
-        context = {"post_id":post.id, "content":content}
-        return render(request,"detail.html",context)
+        if request.method=='GET':
+            context = {"post":post,}
+            return render(request,"detail.html",context)
+        else:
+            comment_text = request.POST.get('comment_text')
+            user_id = request.POST.get('user_id')
+            writer = get_object_or_404(User, pk=user_id)
+            created_at = timezone.now()
+            Comment.objects.create(
+            content = comment_text,
+            #writer = writer,
+            writer = request.user,
+            created_at = created_at,
+            post = post
+            )
+            return HttpResponseRedirect(reverse("detail", args=(post_id,)))
+
 
 
 def edit(request,post_id):

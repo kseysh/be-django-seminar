@@ -24,15 +24,69 @@
             <a href="{% url 'home' %}">MBTI</a>
         </div>
     </header>
+    <div>
+        <table border="1" style="border-collapse: collapse; width: 80%;">
+            <tr>
+                <td>
+                    <p> 제목 </p>
+                </td>
+                <td>
+                    <p>{{ post.headline }}</p>
+                </td>
+            </tr>
+
+            <tr style="min-height: 500px;">
+                <td>
+                    <p> 내용   </p>
+                </td>
+                <td>
+                    <p>{{ post.content }}</p>
+                </td>
+            </tr>
+        </table>
+
+
+                <a href="{% url 'edit' post.id %}">수정하기</a>
+
+                <a href="{% url 'edit' post.id %}">삭제하기</a>
+
+        <br><br><br>
+        <table  border="1" style="border-collapse: collapse; width: 80%;">
+            <tr>
+                <td>
+                    댓글 작성
+                </td>
+                <td>
+                    <form action="{% url 'detail' post.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="text" name="comment_text">
+                        <input type="submit" value="작성">
+                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                    </form>
+                </td>
+            </tr>
+            {% for comment in post.comment_set.all %}
+                <tr>
+                    <td>
+                        작성자 : {{ comment.writer }} <br>MBTI : 
+                        {% if comment.writer.mbti %}
+                            {{ comment.writer.mbti }}
+                        {% else %}
+                            CUTE
+                        {% endif %}
+                    </td> 
+                    <td>
+                        {{ comment.content }}
+                    </td>
+                </tr>
+            {% endfor %}
+            
+        </table>
+    </div>
     
-    제목 : <!--{{ post.post_text }}  -->
-    내용 : {{ content }}
-    댓글 <br>
-    <!-- {% for comment in post.comment_set.all %}
-        {{ post.post_text }}
-    {% endfor %} -->
-    <a href="{% url 'edit' post_id %}">수정하기</a>
-    <a href="{% url 'edit' post_id %}">삭제하기</a>
+    
+    
+    <br><br>
     <!-- 삭제하는 방법 확인 -->
 </body>
 </html>
