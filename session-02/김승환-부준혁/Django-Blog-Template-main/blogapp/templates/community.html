@@ -24,7 +24,11 @@
         </div>
     </header>
     {% if request.user %}
-        <p> 나의 닉네임 : {{ request.user }}
+        <p> 나의 닉네임 : 
+            {% if request.user.mbti %}
+                {{ request.user.mbti }}인 
+            {% endif %}
+            {{ request.user }}
             {% if request.user.is_staff %}
             (관리자)
             {% endif %}

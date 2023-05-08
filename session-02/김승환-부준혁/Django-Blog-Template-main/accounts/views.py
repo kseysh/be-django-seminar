@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login,logout
 from .forms import UserCreateForm, SignUpForm
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib import messages
 def signup(request):
     if request.method=='GET':
         #form = UserCreateForm
@@ -14,7 +15,7 @@ def signup(request):
             instance = form.save()
             return redirect('accounts:login')
         else:
-            print("not valid")
+            messages.add_message(request, messages.WARNING, form.error_messages)
             return redirect('accounts:signup')
 def user_login(request):
     form = AuthenticationForm(request, data = request.POST)
@@ -23,9 +24,13 @@ def user_login(request):
     else:
         if form.is_valid():
             login(request,form.user_cache)
-            return redirect('home')
+            if form.user_cache.mbti:
+                return redirect('home')
+            print(form.user_cache.mbti)
+            return redirect('mbtitest')
+            
         else:
-            print("not valid")
+            messages.add_message(request, messages.WARNING,form.error_messages)
             return render(request, 'accounts/login.html',{'form':form})
         
 

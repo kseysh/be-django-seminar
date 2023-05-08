@@ -11,4 +11,11 @@
         <input type="submit">
     </div>
 </form>
+{% if messages %}
+	{% for message in messages %}
+        <script>
+            alert("{{ message.tags }}	{{ message.message }}")
+        </script>
+	{% endfor %}
+{% endif %}
 {% endblock %}

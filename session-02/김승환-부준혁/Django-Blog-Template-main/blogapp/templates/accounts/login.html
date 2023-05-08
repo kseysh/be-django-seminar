@@ -13,5 +13,12 @@
         계정이 없다면 => <a href="{% url 'accounts:signup' %}">회원 가입</a>
     </div>
 </form>
-
+    
+{% if messages %}
+	{% for message in messages %}
+        <script>
+            alert("{{ message.tags }}	{{ message.message }}")
+        </script>
+	{% endfor %}
+{% endif %}
 {% endblock %}
