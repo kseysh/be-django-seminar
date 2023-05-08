@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login,logout
-from .forms import UserCreateForm, SignUpForm
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import login,logout,authenticate
+from .forms import UserCreateForm, SignUpForm, LoginForm
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+
 def signup(request):
     if request.method=='GET':
         #form = UserCreateForm
@@ -12,15 +13,24 @@ def signup(request):
     else:
         form = SignUpForm(request.POST)
         if form.is_valid():
-            instance = form.save()
+            form.save()
+            username = form.cleaned_data.get('username')
+            #form.cleaned_data.get 함수는 폼의 입력값을 개별적으로 얻고 싶은 경우에 사용하는 함수로
+            #여기서는 인증시 사용할 사용자명과 비밀번호를 얻기 위해 사용했다.
+            raw_password = form.cleaned_data.get('password1')
+            # user = authenticate(username=username, password=raw_password)  
+            # authenticate : 사용자 인증 담당
+            # login(request,user) 
+            # 자동 로그인 기능
             return redirect('accounts:login')
         else:
-            messages.add_message(request, messages.WARNING, form.error_messages)
+            messages.add_message(request, messages.INFO, form.error_messages)
+            print("error_message : "+str(form.error_messages))
             return redirect('accounts:signup')
 def user_login(request):
-    form = AuthenticationForm(request, data = request.POST)
+    form = LoginForm(request, data = request.POST)
     if request.method =='GET':
-        return render(request,'accounts/login.html',{'form':AuthenticationForm()})
+        return render(request,'accounts/login.html',{'form':LoginForm()})
     else:
         if form.is_valid():
             login(request,form.user_cache)
