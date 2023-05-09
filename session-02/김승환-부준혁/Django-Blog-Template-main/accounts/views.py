@@ -7,7 +7,7 @@ from django.contrib import messages
 def signup(request):
     if request.method=='GET':
         #form = UserCreateForm
-        form = UserCreationForm
+        form = SignUpForm
         context = {'form':form}
         return render(request,'accounts/signup.html',context)
     else:
@@ -24,14 +24,16 @@ def signup(request):
             # 자동 로그인 기능
             return redirect('accounts:login')
         else:
-            messages.add_message(request, messages.INFO, form.error_messages)
+            messages.add_message(request, messages.WARNING, form.error_messages)
             print("error_message : "+str(form.error_messages))
-            return redirect('accounts:signup')
+            return render(request,'accounts/signup.html',{'form':form})
+        
+        
 def user_login(request):
-    form = LoginForm(request, data = request.POST)
     if request.method =='GET':
         return render(request,'accounts/login.html',{'form':LoginForm()})
     else:
+        form = LoginForm(request, data = request.POST)
         if form.is_valid():
             login(request,form.user_cache)
             if form.user_cache.mbti:
