@@ -1,0 +1,18 @@
+<form action="{% url 'polls:vote' question.id %}" method="post">
+    <!-- 데이터 서버측을 변경하는 양식을 만들 때마다 ``method=”post”``를 사용하십시오. 
+        이 팁은 Django에만 국한된 것이 아니라 일반적인 좋은 웹 개발 관행입니다. -->
+    {% csrf_token %}
+    <!-- 보안을 위해 필요함 -->
+    <fieldset>
+        <legend><h1>{{ question.question_text }}</h1></legend>
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        {% for choice in question.choice_set.all %}
+        <!-- 장고에서 ForeignKey로 선언된 필드들은 모델을 참조하는 필드에 
+            _set이라는 이름으로 접근할 수 있는 역참조 속성이 자동으로 생성된다. -->
+            <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+            <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+            <!-- forloop.counter => for 태그가 반복을 한 횟수 -->
+            {% endfor %}
+    </fieldset>
+    <input type="submit" value="Vote">
+    </form>
