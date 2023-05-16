@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} </title>
+</head>
+<body>
+    <a href="/support/">질문 리스트</a>
+    <form action="{% url 'support:create' %}" method="GET">
+        <input type="submit" value="1대1 질문 생성">
+    </form>
+    {% block content %}
+    {% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %} 커뮤니티 {% endblock %}
+{% block content %}
+        <p>{{ faq.title }}</p>
+        <p>{{ faq.content }}</p>
+        <form action="{% url 'support:edit_faq' faq.id %}" method="GET">
+            <input type="submit" value="수정">
+        </form>
+
+{% endblock %}
+

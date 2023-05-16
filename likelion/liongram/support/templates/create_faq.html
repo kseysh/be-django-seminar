@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %} 질문 생성 {% endblock %}
+{% block content %}
+<form action="{% url 'support:create' %}">
+    <input type="text" name="title"> <br>
+    <textarea name="content" cols="30" rows="10"></textarea>
+    <input type="submit" value="제출">
+</form>
+{% endblock %}

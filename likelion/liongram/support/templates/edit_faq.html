@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %} 수정 {% endblock %}
+{% block content %}
+<form action="{% url 'support:edit' object_list.id %}" method="POST">
+    {% csrf_token %}
+    <input type="text" name="title" value="{{ object_list.title }}">
+    <textarea name="content" cols="30" rows="10" value="{{ object_list.content }}"></textarea>
+    <input type="submit" value="제출">
+</form>
+{% endblock %}

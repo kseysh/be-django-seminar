@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %} 커뮤니티 {% endblock %}
+{% block content %}
+    {% for faq in object_list %}
+        <p>제목 : {{ faq.title }}</p>
+        <p>내용 : {{ faq.content }}</p>
+        <p>카테고리 : {{ faq.category }}</p>
+        <p>생성일 : {{ faq.created_at }}</p>
+        <p>생성자 : {{ faq.created_by }}</p>
+        <p>수정일 : {{ faq.updated_at }}</p>
+        <p>수정자 : {{ faq.updated_by }}</p>
+
+
+        <form action="{% url 'support:edit' %}" method="GET">
+            <input type="submit" value="수정">
+        </form>
+    {% endfor %}
+{% endblock %}
